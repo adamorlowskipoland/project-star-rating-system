@@ -42,9 +42,7 @@
   </style>
 </head>
 <body>
-
 <h1>Rate Me</h1>
-
 <form id="product1"
       class="rating">
   <button type="submit"
@@ -78,7 +76,6 @@
     <span class="screen-reader">5 Stars</span>
   </button>
 </form>
-
 <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 <script>
   // Your code goes here
@@ -88,7 +85,6 @@
     goldStars: [],
     rated: []
   }
-
   methods = {
     showRate (elem) {
       const index = elem.dataset.star
@@ -115,27 +111,22 @@
           methods.showRate(this)
         })
       })
-
       model.stars.forEach((star) => {
         star.addEventListener('focus', function () {
           methods.showRate(this)
         })
       })
-
       model.form.addEventListener('mouseout', function () {
         methods.notRated() ? methods.hideRates(model.stars) : methods.showRated(model.rated)
       })
-
       model.form.addEventListener('focusout', function () {
         methods.notRated() ? methods.hideRates(model.stars) : methods.showRated(model.rated)
       })
-
       model.form.addEventListener('submit', function (event) {
         event.preventDefault()
         model.rated = [...model.goldStars]
         methods.showRated()
       })
-
       model.form.addEventListener('keyup', function (event) {
         if (event.keyCode === 13) {
           model.rated = [...model.goldStars]
@@ -144,7 +135,6 @@
       })
     }
   }
-
   methods.setUpListeners()
 </script>
 </body>
