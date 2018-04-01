@@ -23,10 +23,6 @@
       color: gold;
     }
 
-    .input {
-      margin-top: 100px;
-    }
-
     /**
      * Visually hide an element, but leave it available for screen readers
      * @link https://github.com/h5bp/html5-boilerplate/blob/master/dist/css/main.css
@@ -55,59 +51,37 @@
           class="star"
           data-star="1">
     &#9733;
-    <span class="screen-reader">
-  1 Star
-  </span>
+    <span class="screen-reader">1 Star</span>
   </button>
   <button type="submit"
           class="star"
           data-star="2">
     &#9733;
-    <span class="screen-reader">
-  2 Stars
-  </span>
+    <span class="screen-reader">2 Stars</span>
   </button>
   <button type="submit"
           class="star"
           data-star="3">
     &#9733;
-    <span class="screen-reader">
-  3 Stars
-  </span>
+    <span class="screen-reader">3 Stars</span>
   </button>
   <button type="submit"
           class="star"
           data-star="4">
     &#9733;
-    <span class="screen-reader">
-  4 Stars
-  </span>
+    <span class="screen-reader">4 Stars</span>
   </button>
   <button type="submit"
           class="star"
           data-star="5">
     &#9733;
-    <span class="screen-reader">
-  5 Stars
-  </span>
+    <span class="screen-reader">5 Stars</span>
   </button>
 </form>
 
 <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 <script>
   // Your code goes here
-
-
-  //  for (let i = 0; i < 5; i++) {
-  //    const btn = `
-  //      <button type="submit" class="star" data-star="i">
-  //        &#9733;
-  //      <span class="screen-reader">${i} star</span></button>
-  //    `
-  //    console.log(form.innerHTML)
-  //    form.innerHTML = form.innerHTML + btn
-  //  }
-
   model = {
     form: document.getElementById('product1'),
     stars: [...document.querySelectorAll('.star')],
@@ -115,60 +89,63 @@
     rated: []
   }
 
-  const showRate = (elem) => {
-    const index = elem.dataset.star
-    model.goldStars = stars.slice(0, index)
-    hideRates(model.stars)
-    showRates(model.goldStars)
-  }
+  methods = {
+    showRate (elem) {
+      const index = elem.dataset.star
+      model.goldStars = model.stars.slice(0, index)
+      this.hideRates()
+      this.showRates(model.goldStars)
+    },
+    showRates (elems) {
+      elems.forEach(star => star.classList.add('rated'))
+    },
+    hideRates () {
+      model.stars.forEach(star => star.classList.remove('rated'))
+    },
+    showRated () {
+      this.hideRates(model.stars)
+      this.showRates(model.rated)
+    },
+    notRated () {
+      return model.rated.length < 1
+    },
+    setUpListeners () {
+      model.stars.forEach((star) => {
+        star.addEventListener('mouseover', function () {
+          methods.showRate(this)
+        })
+      })
 
-  const showRates = (elems) => {
-    elems.forEach(star => star.classList.add('rated'))
-  }
+      model.stars.forEach((star) => {
+        star.addEventListener('focus', function () {
+          methods.showRate(this)
+        })
+      })
 
-  const hideRates = (elems) => {
-    elems.forEach(star => star.classList.remove('rated'))
-  }
+      model.form.addEventListener('mouseout', function () {
+        methods.notRated() ? methods.hideRates(model.stars) : methods.showRated(model.rated)
+      })
 
-  const showRated = () => {
-    hideRates(model.stars)
-    showRates(model.rated)
-  }
+      model.form.addEventListener('focusout', function () {
+        methods.notRated() ? methods.hideRates(model.stars) : methods.showRated(model.rated)
+      })
 
-  const notRated = () => model.rated.length < 1
+      model.form.addEventListener('submit', function (event) {
+        event.preventDefault()
+        model.rated = [...model.goldStars]
+        methods.showRated()
+      })
 
-  model.stars.forEach((star) => {
-    star.addEventListener('mouseover', function () {
-      showRate(this)
-    })
-  })
-
-  model.stars.forEach((star) => {
-    star.addEventListener('focus', function () {
-      showRate(this)
-    })
-  })
-
-  model.form.addEventListener('mouseout', function () {
-    notRated() ? hideRates(model.stars) : showRated(model.rated)
-  })
-
-  model.form.addEventListener('focusout', function () {
-    notRated() ? hideRates(model.stars) : showRated(model.rated)
-  })
-
-  model.form.addEventListener('submit', function (event) {
-    event.preventDefault()
-    model.rated = [...model.goldStars]
-    showRated()
-  })
-
-  form.addEventListener('keyup', function (event) {
-    if (event.keyCode === 13) {
-      model.rated = [...model.goldStars]
-      showRated()
+      model.form.addEventListener('keyup', function (event) {
+        if (event.keyCode === 13) {
+          model.rated = [...model.goldStars]
+          methods.showRated()
+        }
+      })
     }
-  })
+  }
+
+  methods.setUpListeners()
 </script>
 </body>
 </html>
