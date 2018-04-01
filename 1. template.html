@@ -96,16 +96,30 @@
 <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 <script>
   // Your code goes here
-  const form = document.getElementById('product1')
-  const stars = [...document.querySelectorAll('.star')]
-  let goldStars = []
-  let rated = []
+
+
+  //  for (let i = 0; i < 5; i++) {
+  //    const btn = `
+  //      <button type="submit" class="star" data-star="i">
+  //        &#9733;
+  //      <span class="screen-reader">${i} star</span></button>
+  //    `
+  //    console.log(form.innerHTML)
+  //    form.innerHTML = form.innerHTML + btn
+  //  }
+
+  model = {
+    form: document.getElementById('product1'),
+    stars: [...document.querySelectorAll('.star')],
+    goldStars: [],
+    rated: []
+  }
 
   const showRate = (elem) => {
     const index = elem.dataset.star
-    goldStars = stars.slice(0, index)
-    hideRates(stars)
-    showRates(goldStars)
+    model.goldStars = stars.slice(0, index)
+    hideRates(model.stars)
+    showRates(model.goldStars)
   }
 
   const showRates = (elems) => {
@@ -117,41 +131,41 @@
   }
 
   const showRated = () => {
-    hideRates(stars)
-    showRates(rated)
+    hideRates(model.stars)
+    showRates(model.rated)
   }
 
-  const notRated = () => rated.length < 1
+  const notRated = () => model.rated.length < 1
 
-  stars.forEach((star) => {
+  model.stars.forEach((star) => {
     star.addEventListener('mouseover', function () {
       showRate(this)
     })
   })
 
-  stars.forEach((star) => {
+  model.stars.forEach((star) => {
     star.addEventListener('focus', function () {
       showRate(this)
     })
   })
 
-  form.addEventListener('mouseout', function () {
-    notRated() ? hideRates(stars) : showRated(rated)
+  model.form.addEventListener('mouseout', function () {
+    notRated() ? hideRates(model.stars) : showRated(model.rated)
   })
 
-  form.addEventListener('focusout', function () {
-    notRated() ? hideRates(stars) : showRated(rated)
+  model.form.addEventListener('focusout', function () {
+    notRated() ? hideRates(model.stars) : showRated(model.rated)
   })
 
-  form.addEventListener('submit', function (event) {
+  model.form.addEventListener('submit', function (event) {
     event.preventDefault()
-    rated = [...goldStars]
+    model.rated = [...model.goldStars]
     showRated()
   })
 
   form.addEventListener('keyup', function (event) {
     if (event.keyCode === 13) {
-      rated = [...goldStars]
+      model.rated = [...model.goldStars]
       showRated()
     }
   })
