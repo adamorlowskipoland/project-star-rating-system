@@ -1,4 +1,1 @@
-A star-based rating feature #
-
-
-We’re going to build a star-based rating feature.
+# Vanilla JS Project: Star-Based Rating App
