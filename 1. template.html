@@ -84,12 +84,12 @@
     stars: [...document.querySelectorAll('.star')],
     goldStars: [],
     rated: []
-  }
+  };
   methods = {
     showRate (elem) {
-      const index = elem.dataset.star
-      model.goldStars = model.stars.slice(0, index)
-      this.hideRates()
+      const index = elem.dataset.star;
+      model.goldStars = model.stars.slice(0, index);
+      this.hideRates();
       this.showRates(model.goldStars)
     },
     showRates (elems) {
@@ -99,7 +99,7 @@
       model.stars.forEach(star => star.classList.remove('rated'))
     },
     showRated () {
-      this.hideRates()
+      this.hideRates();
       this.showRates(model.rated)
     },
     notRated () {
@@ -110,31 +110,31 @@
         star.addEventListener('mouseover', function () {
           methods.showRate(this)
         })
-      })
+      });
       model.stars.forEach((star) => {
         star.addEventListener('focus', function () {
           methods.showRate(this)
         })
-      })
+      });
       model.form.addEventListener('mouseout', function () {
         methods.notRated() ? methods.hideRates(model.stars) : methods.showRated(model.rated)
-      })
+      });
       model.form.addEventListener('focusout', function () {
         methods.notRated() ? methods.hideRates(model.stars) : methods.showRated(model.rated)
-      })
+      });
       model.form.addEventListener('submit', function (event) {
-        event.preventDefault()
-        model.rated = [...model.goldStars]
+        event.preventDefault();
+        model.rated = [...model.goldStars];
         methods.showRated()
-      })
+      });
       model.form.addEventListener('keyup', function (event) {
         if (event.keyCode === 13) {
-          model.rated = [...model.goldStars]
+          model.rated = [...model.goldStars];
           methods.showRated()
         }
       })
     }
-  }
+  };
   methods.setUpListeners()
 </script>
 </body>
